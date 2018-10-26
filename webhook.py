@@ -31,11 +31,13 @@ def makeResponse(req):
     r = requests.get('https://samples.openweathermap.org/data/2.5/forecast?q=%s,us&appid=b6907d289e10d714a6e88b30761fae22'%city)
     json_object = r.json()
     weather = json_object['list']
-    for i in len(weather):
-        for date in weather[i]['dt_txt']:
+    condition = 'cloudy'
+    for i in range(0,30):
+        if date in weather[i]['dt_txt']:
             condition = weather[i]['weather'][0]['description']
+            break
             
-    speech = 'The forecast for ' + city + 'on' + date + 'is' + condition
+    speech = 'The forecast for ' + city + ' on' + date + ' is ' + condition
     return {
             'speech':speech,
             'displayText':speech,
@@ -46,4 +48,3 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT',5000))
     print('Starting app on port %d'%port)
     app.run(debug=False,port=port,host='0.0.0.0')
-    

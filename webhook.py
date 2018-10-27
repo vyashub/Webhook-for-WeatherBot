@@ -23,12 +23,12 @@ def webhook():
     return r
 
 def makeResponse(req):
-    result = req.get('result')
-    parameters = result.get('parameters')
-    city = parameters.get('geo-city')
-    date = parameters.get('date')
+    result = req.get("result")
+    parameters = result.get("parameters")
+    city = parameters.get("geo-city")
+    date = parameters.get("date")
     
-    r = requests.get('https://samples.openweathermap.org/data/2.5/forecast?q=%s,us&appid=b6907d289e10d714a6e88b30761fae22'%city)
+    r = requests.get('https://samples.openweathermap.org/data/2.5/forecast?q=' + city + ',us&appid=b6907d289e10d714a6e88b30761fae22')
     json_object = r.json()
     weather = json_object['list']
     condition = 'cloudy'
@@ -39,9 +39,9 @@ def makeResponse(req):
             
     speech = 'The forecast for ' + city + ' on' + date + ' is ' + condition
     return {
-            'speech':speech,
-            'displayText':speech,
-            'source':'apiai-weather-webhook'
+            "speech":speech,
+            "displayText":speech,
+            "source":"apiai-weather-webhook"
             }
     
 if __name__ == '__main__':

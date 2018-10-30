@@ -27,10 +27,7 @@ def makeResponse(req):
     parameters = result.get("parameters")
     city = parameters.get("geo-city")
     date = parameters.get("date")
-    city = 'New York'
-    date = '2018-10-31'
-    #r=requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&appid=06f070197b1f60e55231f8c46658d077')
-    r=requests.get('http://api.openweathermap.org/data/2.5/forecast?q=London&appid=06f070197b1f60e55231f8c46658d077')
+    r=requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&appid=06f070197b1f60e55231f8c46658d077')
     json_object = r.json()
     weather=json_object['list']
     for i in range(0,30):
@@ -38,7 +35,11 @@ def makeResponse(req):
             condition= weather[i]['weather'][0]['description']
             break
     speech = "The forecast for"+city+"for "+date+" is "+condition
-    return speech
+    return {
+    "speech": speech,
+    "displayText": speech,
+    "source": "apiai-weather-webhook"
+    }
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
